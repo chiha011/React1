@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import Button from "./components/ui/Button";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className="text-3xl font-bold underline"> Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+import ProdcutCard from "./components/ProdcutCard"
+import Modal from "./components/ui/Modal";
+import { productList } from "./data";
+import {useState } from "react";
+
+
+
+const App = () => {
+
+
+/* STAATE*/
+const [isOpen, setIsOpen] = useState(false);
+
+
+/* Handler*/
+function openModal() {
+    setIsOpen(true);
 }
 
-export default App
+function closeModal() {
+    setIsOpen(false);
+}
+
+  //**renders */
+  const renderProductList =productList.map(product => <ProdcutCard key={product.id} product={product}/>);
+
+
+  return (
+    <main className="container">  
+
+<Button className="bg-yellow-400" onClick={openModal}>Add</Button>
+      
+      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 p-2  rounded-md">  
+      {renderProductList}
+      </div>
+
+      <Modal isOpen={isOpen} closeModal={closeModal} title=" ADD A NEW PRODUCT ">
+        <div className="flex items-center space-x-3">
+        <Button className="bg-yellow-400">SUBMIT</Button>
+        <Button className="bg-indigo-400 ">CANCEL</Button>
+        </div>
+        </Modal>
+    </main>
+    );
+};
+
+export default App;
